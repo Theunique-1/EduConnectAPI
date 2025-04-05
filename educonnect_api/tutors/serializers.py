@@ -1,21 +1,39 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from .models import Tutors
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-class TutorsSerializer(serializers.ModelSerializer):
+# Serializer for tutor registration
+class TutorRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = Tutors
-        fields = ('id', 'username', 'email', 'password', 'profile_picture', 'expertise', 'hourly_rate', 'online_availability', 'in_person_availability', 'location')
-        extra_kwargs = {'password': {'write_only': True}}
+        # Fields to include in the registration process.
+        fields = ('username', 'email', 'password', 'first_name', 'last_name')
 
     def create(self, validated_data):
-        password = validated_data.pop('password', None)
-        instance = self.Meta.model(**validated_data)
-        if password is not None:
-            instance.set_password(password)
-        instance.save()
-        return instance
+        # Create a new Tutor using the validated data.
+        tutor = Tutors.objects.create_user(**validated_data)
+        return tutor
 
-    def validate_hourly_rate(self, value):
-        if value < 0:
-            raise serializers.ValidationError("Hourly rate cannot be negative.")
-        return value
+
+class TutorLoginSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['is_tutor'] = isinstance(user, Tutors)
+        return token
+
+# Serializer for tutor profile creation
+    
+class TutorProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tutors
+        fields = ('profile_picture', 'expertise', 'hourly_rate', 'online_availability', 'in_person_availability', 'location')
+        read_only_fields = ('username', 'email', 'first_name', 'last_name')
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()  

@@ -1,7 +1,9 @@
-from rest_framework.routers import DefaultRouter
-from .views import TutorsViewSet
+from django.urls import path
+from .views import TutorRegistrationView, TutorLoginView
+from rest_framework_simplejwt.views import TokenRefreshView
 
-router = DefaultRouter()
-router.register(r'tutors', TutorsViewSet)
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('register/', TutorRegistrationView.as_view(), name='tutor-register'),
+    path('login/', TutorLoginView.as_view(), name='tutor-login'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+]

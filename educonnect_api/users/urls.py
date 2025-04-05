@@ -1,17 +1,14 @@
-from django.urls import path
-from rest_framework.routers import DefaultRouter
-from .views import StudentsViewSet, UserRegistrationView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.urls import path, include
+from rest_framework import routers
+from .views import UserRegistrationView, UserLoginView, StudentsViewSet 
+from rest_framework_simplejwt.views import TokenRefreshView
 
-
-router = DefaultRouter()
-router.register(r'students', StudentsViewSet)
+router = routers.DefaultRouter()
+router.register(r'profiles', StudentsViewSet, basename='student-profile')
 
 urlpatterns = [
-    path('register/', UserRegistrationView.as_view(), name='register'),
-    path('login/', TokenObtainPairView.as_view(), name='login'),
+    path('register/', UserRegistrationView.as_view(), name='user-register'),
+    path('login/', UserLoginView.as_view(), name='user-login'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('', include(router.urls)),
 ]
-
-
-urlpatterns = router.urls

@@ -1,16 +1,31 @@
 from rest_framework import serializers
 from .models import Students
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-class StudentsSerializer(serializers.ModelSerializer):
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = Students
-        fields = ('id', 'username', 'email', 'password', 'profile_picture', 'bio', 'location')
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ('username', 'email', 'password', 'first_name', 'last_name', 'bio', 'location')
 
     def create(self, validated_data):
-        password = validated_data.pop('password', None)
-        instance = self.Meta.model(**validated_data)
-        if password is not None:
-            instance.set_password(password)
-        instance.save()
-        return instance
+        user = Students.objects.create_user(**validated_data)
+        user.is_active = True
+        user.save()
+        return user
+
+
+class StudentLoginSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['is_student'] = True
+        return token
+
+
+
+class StudentProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Students
+        fields = ('profile_picture', 'bio', 'location')

@@ -2,13 +2,13 @@ from django.shortcuts import render
 from rest_framework import generics, viewsets, permissions
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import Students
-from .serializers import StudentsSerializer
+from .serializers import UserRegistrationSerializer, StudentProfileSerializer, StudentLoginSerializer
 from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
-from .permissions import IsTutorOrStudent
+from .permissions import IsStudentOwnerOrReadOnly
+from rest_framework.routers import DefaultRouter
 
-
-# Create your views here.
+router = DefaultRouter()  # Instantiate the router here
 
 class StudentsPagination(PageNumberPagination):
     page_size = 15
@@ -17,17 +17,33 @@ class StudentsPagination(PageNumberPagination):
 
 class StudentsViewSet(viewsets.ModelViewSet):
     queryset = Students.objects.all()
-    serializer_class = StudentsSerializer
+    serializer_class = StudentProfileSerializer
     pagination_class = StudentsPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['username', 'email', 'location']
-    permission_classes = [IsTutorOrStudent]
+    filterset_fields = ['location']
+    permission_classes = [permissions.IsAuthenticated, IsStudentOwnerOrReadOnly]
 
+    def get_queryset(self):
+        return Students.objects.filter(id=self.request.user.id)
+
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def perform_destroy(self, instance):
+        if instance.id == self.request.user.id:
+            instance.delete()
+
+router.register(r'profiles', StudentsViewSet, basename='student-profile') # Register after definition
 
 class UserRegistrationView(generics.CreateAPIView):
     queryset = Students.objects.all()
-    serializer_class = StudentsSerializer
+    serializer_class = UserRegistrationSerializer
     permission_classes = (permissions.AllowAny,)
 
+    def post(self, request, *args, **kwargs):
+        print("UserRegistrationView post method called")
+        return self.create(request, *args, **kwargs)
+
 class UserLoginView(TokenObtainPairView):
+    serializer_class = StudentLoginSerializer
     permission_classes = (permissions.AllowAny,)

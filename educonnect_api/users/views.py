@@ -8,7 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .permissions import IsStudentOwnerOrReadOnly
 from rest_framework.routers import DefaultRouter
 
-router = DefaultRouter()  # Instantiate the router here
+router = DefaultRouter() 
 
 class StudentsPagination(PageNumberPagination):
     page_size = 15
@@ -46,4 +46,4 @@ class UserRegistrationView(generics.CreateAPIView):
 
 class UserLoginView(TokenObtainPairView):
     serializer_class = StudentLoginSerializer
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = [permissions.AllowAny]

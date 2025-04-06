@@ -18,12 +18,16 @@ class TutorRegistrationSerializer(serializers.ModelSerializer):
         return tutor
 
 
+# Serializer for tutor login, extending JWT's TokenObtainPairSerializer
+
 class TutorLoginSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
         token['is_tutor'] = isinstance(user, Tutors)
         return token
+    
+    
 
 # Serializer for tutor profile creation
     

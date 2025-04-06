@@ -23,7 +23,7 @@ class Tutors(AbstractUser):
         verbose_name=("user permissions"),
         blank=True,
         help_text=("Specific permissions for this user."),
-        related_name="tutors_set",  # Add a unique related_name (same as groups for consistency)
+        related_name="tutors_set",  
         related_query_name="tutor",
     )
 

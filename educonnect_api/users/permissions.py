@@ -1,11 +1,14 @@
 from rest_framework import permissions
 
+
+# Custom permission to check if the requesting user is a Student
+
 class IsStudent(permissions.BasePermission):
+ # Check if the user is authenticated and has the 'students' attribute (indicating it's a Student model instance)   
     def has_permission(self, request, view):
         return request.user.is_authenticated and hasattr(request.user, 'students')
-
-from rest_framework import permissions
-
+    
+# Custom permission to allow only the owner of a Student object to edit or delete it
 class IsStudentOwnerOrReadOnly(permissions.BasePermission):
     """
     Custom permission to only allow owners of an object to edit or delete it.

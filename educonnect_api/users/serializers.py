@@ -2,6 +2,9 @@ from rest_framework import serializers
 from .models import Students
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
+# Serializer for user registration
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -16,6 +19,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
+# Serializer for user login, extending JWT's TokenObtainPairSerializer
+
 class StudentLoginSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -24,6 +29,7 @@ class StudentLoginSerializer(TokenObtainPairSerializer):
         return token
 
 
+# Serializer for student profile information
 
 class StudentProfileSerializer(serializers.ModelSerializer):
     class Meta:

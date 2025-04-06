@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Message
 
+# Serializer for Message objects, including nested sender and receiver details
+
 class MessageSerializer(serializers.ModelSerializer):
     sender_student = serializers.SerializerMethodField()
     sender_tutor = serializers.SerializerMethodField()

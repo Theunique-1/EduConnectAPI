@@ -27,11 +27,17 @@ class StudentLoginSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token['is_student'] = True
         return token
+    
 
-
-# Serializer for student profile information
-
+# Serializer for student profile information    
 class StudentProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Students
         fields = ('profile_picture', 'bio', 'location')
+
+
+    
+
+
+
+

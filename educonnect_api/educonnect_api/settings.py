@@ -1,6 +1,12 @@
 from pathlib import Path
 from datetime import timedelta
 
+
+AUTHENTICATION_BACKENDS = [
+    'users.backends.StudentTutorBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,7 +37,7 @@ INSTALLED_APPS = [
     'django_filters',
     'users.apps.UsersConfig',
     'tutors.apps.TutorsConfig',
-    'bookings.apps.BookingsConfig',
+    'bookings',
     'communications.apps.CommunicationsConfig',
 ]
 
@@ -77,6 +83,7 @@ DATABASES = {
 }
 
 
+AUTH_USER_MODEL = 'users.Students'
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -133,8 +140,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60), 
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=20),    
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=20),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
 
@@ -163,6 +170,6 @@ SIMPLE_JWT = {
 }
 
 
-#
 
-AUTH_USER_MODEL = 'users.Students'
+
+

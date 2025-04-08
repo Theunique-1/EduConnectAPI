@@ -9,6 +9,8 @@ class Message(models.Model):
     recipient_tutor = models.ForeignKey(Tutors, on_delete=models.CASCADE, related_name='received_messages', null=True, blank=True)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)  
+
 
     def __str__(self):
         sender = self.sender_student.username if self.sender_student else (self.sender_tutor.username if self.sender_tutor else "System")

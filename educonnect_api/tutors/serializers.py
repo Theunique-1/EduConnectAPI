@@ -9,7 +9,7 @@ class TutorRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tutors
-        fields = ('username', 'email', 'password', 'first_name', 'last_name', 'phone number', 'bio', 'location', 'expertise', 'hourly_rate', 'profile_picture')
+        fields = ('username', 'email', 'password', 'first_name', 'last_name', 'phone_number', 'bio', 'location', 'expertise', 'hourly_rate', 'profile_picture')
 
     def create(self, validated_data):
         user = Tutors.objects.create_user(**validated_data)
@@ -29,4 +29,4 @@ class TutorLoginSerializer(TokenObtainPairSerializer):
 class TutorProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutors
-        fields = ('profile_picture', 'phone', 'bio', 'location', 'expertise', 'hourly_rate')  
+        fields = ('profile_picture', 'phone_number', 'bio', 'location', 'expertise', 'hourly_rate')  

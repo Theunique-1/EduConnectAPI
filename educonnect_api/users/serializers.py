@@ -10,7 +10,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Students
-        fields = ('username', 'email', 'password', 'first_name', 'last_name', 'phone number', 'bio', 'location')
+        fields = ('username', 'email', 'password', 'first_name', 'last_name', 'phone_number', 'bio', 'location')
 
     def create(self, validated_data):
         user = Students.objects.create_user(**validated_data)
@@ -33,7 +33,7 @@ class StudentLoginSerializer(TokenObtainPairSerializer):
 class StudentProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Students
-        fields = ('profile_picture','phone number', 'bio', 'location')
+        fields = ('profile_picture','phone_number', 'bio', 'location')
 
 
     

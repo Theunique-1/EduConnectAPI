@@ -26,7 +26,7 @@ class TutorsViewSet(viewsets.ModelViewSet):
     serializer_class = TutorProfileSerializer
     pagination_class = TutorsPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['location', 'expertise']
+    filterset_fields = ['location', ' phone number' 'expertise']
     permission_classes = [permissions.IsAuthenticated, IsTutorOwnerOrReadOnly]
 
 

@@ -28,7 +28,7 @@ class StudentsViewSet(viewsets.ModelViewSet):
     serializer_class = StudentProfileSerializer
     pagination_class = StudentsPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['location']
+    filterset_fields = ['location','phone number']
     permission_classes = [permissions.IsAuthenticated, IsStudentOwnerOrReadOnly]
 
 

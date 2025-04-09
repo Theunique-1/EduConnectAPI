@@ -4,7 +4,7 @@ from .models import Students
 # Register your models here.
 
 class StudentsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'email', 'is_active', 'date_joined')
+    list_display = ('id', 'username', 'email', 'phone_number', 'is_active', 'date_joined')
     search_fields = ('username', 'email')
     list_filter = ('is_active', 'is_staff', 'is_superuser')
     fieldsets = (

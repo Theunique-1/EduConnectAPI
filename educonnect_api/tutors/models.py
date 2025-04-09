@@ -7,6 +7,7 @@ class Tutors(AbstractUser):
     hourly_rate = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     location = models.CharField(max_length=300, null=True, blank=True)
     profile_picture = models.ImageField(upload_to='tutor_profiles/', null=True, blank=True)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
     groups = models.ManyToManyField(
         "auth.Group",
         verbose_name=("groups"),

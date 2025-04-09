@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'tutors.apps.TutorsConfig',
     'bookings',
-    'communications.apps.CommunicationsConfig',
+
 ]
 
 MIDDLEWARE = [

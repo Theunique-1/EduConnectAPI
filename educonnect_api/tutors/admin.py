@@ -4,7 +4,7 @@ from .models import Tutors
 # Register your models here.
 
 class TutorsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'email', 'is_active', 'expertise')
+    list_display = ('id', 'username', 'email', 'phone_number', 'is_active', 'expertise')
     search_fields = ('username', 'email', 'expertise', 'location')
     list_filter = ('is_active', 'expertise', 'location')
     ordering = ('username',)
